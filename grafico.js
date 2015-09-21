@@ -21,6 +21,10 @@ s = document.createElement('script');
 s.src = 'https://raw.githubusercontent.com/selialkile/onlygain/master/jquery.flot.resize.js';
 document.body.appendChild(s);
 
+s = document.createElement('script');
+s.src = 'https://raw.githubusercontent.com/selialkile/onlygain/master/jquery.flot.categories.js';
+document.body.appendChild(s);
+
 $('body').prepend('<div id="graficopah" style="position:absolute; top:300px; left1px; width: 500px; height: 300px; z-index: 2000; background-color: white;" class=".demo-container"><div style="width: 500px; height: 300px; position: relative;" id="placeholder"></div></div>');
 
 window.superGrafico = window.super_grafico || {};
