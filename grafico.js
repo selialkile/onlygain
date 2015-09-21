@@ -9,17 +9,18 @@
 
 
 s = document.createElement('script');
-s.src = 'http://www.flotcharts.org/flot/shared/jquery-ui/jquery-ui.min.js';
+s.src = 'https://raw.githubusercontent.com/selialkile/onlygain/master/jquery-ui.min.js';
 document.body.appendChild(s);
 
 s = document.createElement('script');
-s.src = 'http://www.flotcharts.org/flot/jquery.flot.js';
+s.src = 'https://raw.githubusercontent.com/selialkile/onlygain/master/jquery.flot.js';
 document.body.appendChild(s);
 
 s = document.createElement('script');
-s.src = 'http://www.flotcharts.org/flot/jquery.flot.resize.js';
+s.src = 'https://raw.githubusercontent.com/selialkile/onlygain/master/jquery.flot.resize.js';
 document.body.appendChild(s);
 
+$('body').prepend('<div id="graficopah" style="position:absolute; top:1px; left1px; width: 500px; height: 300px; z-index: 2000; background-color: red;" class=".demo-container"><div style="padding: 0px; position: relative;" id="placeholder"></div></div>');
 
 $(function() {
 
@@ -28,10 +29,10 @@ $(function() {
 			d5.push([i, i-1]);
 		}
 
-    $(".demo-container").width(350);
-    $(".demo-container").height(250);
+    $("#graficopah").width(350);
+    $("#graficopah").height(250);
 
-		$.plot("#placeholder", [{
+		$.plot("#graficopah #placeholder", [{
 			data: d5,
 			lines: { show: true },
 			points: { show: true }
