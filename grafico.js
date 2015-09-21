@@ -23,24 +23,82 @@ document.body.appendChild(s);
 
 $('body').prepend('<div id="graficopah" style="position:absolute; top:300px; left1px; width: 500px; height: 300px; z-index: 2000; background-color: white;" class=".demo-container"><div style="width: 500px; height: 300px; position: relative;" id="placeholder"></div></div>');
 
-$(function() {
+window.superGrafico = window.super_grafico || {};
+window.superGrafico = {
+  init: function () {
 
-	var d1 = [];
-	for (var i = 0; i < 14; i += 0.5) {
-		d1.push([i, Math.sin(i)]);
-	}
+    superGrafico.render();
+  },
 
-	var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
-	var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
+  add_data: function(group, data){
+  	superGrafico.stored_data = superGrafico.stored_data || {};
 
-	var placeholder = $("#graficopah #placeholder");
-	var plot = $.plot(placeholder, [d1, d2, d3]);
+  	if(superGrafico.stored_data[group]==undefined){
+  		superGrafico.stored_data[group] = [];
+  	}
+  	superGrafico.stored_data[group].push(data)
+  },
+  get_stored_data_to_array: function(){
+		return $.map(window.superGrafico.stored_data , function(value, index) {
+		    return [value];
+		});
+  },
+  render: function () {
+		var placeholder = $("#graficopah #placeholder");
+		var plot = $.plot(placeholder, superGrafico.get_stored_data_to_array());
 
-	$("#graficopah").resizable({
-		maxWidth: 350,
-		maxHeight: 200,
-		minWidth: 150,
-		minHeight: 50
-	});
+		$("#graficopah").resizable({
+			maxWidth: 350,
+			maxHeight: 200,
+			minWidth: 150,
+			minHeight: 50
+		});
+  },
+  add_candle: function(candle, min, max){
+  	var size = superGrafico.stored_data.length + 1;
+		window.superGrafico.add_data(candle, [size,min]);
+		window.superGrafico.add_data(candle, [size,max]);
+  },
+  add_serie: function(name, value){
+  	var size = 0;
+  	if(superGrafico.stored_data[name]!=undefined){
+	  	size = superGrafico.stored_data[name].length + 1;
+  	}
+  	window.superGrafico.add_data(name, ["testando" + size,value]);
+  }
+};
 
-});
+//exemplo de dados em grafico
+window.superGrafico.stored_data = {};
+window.superGrafico.add_serie('1m', 3950);
+window.superGrafico.add_serie('1m', 3951);
+window.superGrafico.add_serie('1m', 3952);
+window.superGrafico.add_serie('1m', 3952);
+window.superGrafico.add_serie('1m', 3950);
+window.superGrafico.add_serie('1m', 3952);
+window.superGrafico.add_serie('1m', 3955);
+
+window.superGrafico.add_data('c0', [1,3950]);
+window.superGrafico.add_data('c0', [2,3952]);
+window.superGrafico.add_data('c0', [3,3953]);
+window.superGrafico.add_data('c0', [4,3952]);
+window.superGrafico.add_data('c0', [5,3953]);
+window.superGrafico.add_data('c0', [6,3954]);
+window.superGrafico.add_data('c0', [7,3956]);
+window.superGrafico.add_data('c0', [8,3962]);
+window.superGrafico.add_data('c0', [9,3965]);
+window.superGrafico.render();
+
+//exemplos de candles...
+window.superGrafico.stored_data = {};
+window.superGrafico.add_data('c0', [0,0]);
+window.superGrafico.add_data('c0', [0,0]);
+window.superGrafico.add_data('c1', [10,3950]);
+window.superGrafico.add_data('c1', [10,3955]);
+window.superGrafico.add_data('c2', [11,3958]);
+window.superGrafico.add_data('c2', [11,3962]);
+window.superGrafico.add_data('c3', [12,3958]);
+window.superGrafico.add_data('c3', [12,3962]);
+window.superGrafico.add_data('c4', [13,3962]);
+window.superGrafico.add_data('c4', [13,3950]);
+window.superGrafico.render();
